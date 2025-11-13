@@ -4,7 +4,7 @@
 [![Documentation](https://docs.rs/json2toon_rs/badge.svg)](https://docs.rs/json2toon_rs)
 [![CI](https://github.com/anperrone/json2toon_rs/workflows/CI/badge.svg)](https://github.com/anperrone/json2toon_rs/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Rust Version](https://img.shields.io/badge/rust-1.70%2B-blue.svg)](https://www.rust-lang.org/)
+[![Rust Version](https://img.shields.io/badge/rust-1.89%2B-blue.svg)](https://www.rust-lang.org/)
 
 Fast, optimized JSON to TOON format converter based on the [TOON v2.0 specification](https://github.com/toon-format/spec/blob/main/SPEC.md).
 
@@ -323,10 +323,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Based on the [TOON v2.0 specification](https://github.com/toon-format/spec/blob/main/SPEC.md)
 - Built with [serde](https://serde.rs/) and [serde_json](https://github.com/serde-rs/json)
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes.
 
 ## References
 
