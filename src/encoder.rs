@@ -291,13 +291,12 @@ impl<'a> Encoder<'a> {
         Some(fields)
     }
 
-    /// Write array header: [N<delim>] or [N<delim>]{fields}:
+    /// Write array header: `[N<delim>]` or `[N<delim>]{fields}:`
     fn write_array_header(&mut self, len: usize, delim: Delimiter, fields: Option<&[String]>) {
         self.output.push('[');
         self.output.push_str(&len.to_string());
         self.output.push_str(delim.header_symbol());
         self.output.push(']');
-
         if let Some(fields) = fields {
             self.output.push('{');
             for (i, field) in fields.iter().enumerate() {
