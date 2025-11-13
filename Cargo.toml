@@ -1,0 +1,30 @@
+[package]
+name = "json2toon_rs"
+version = "0.1.0"
+edition = "2021"
+authors = ["Antonio Perrone <anperrone86@gmail.com>"]
+license = "MIT"
+description = "Fast, bidirectional JSON to TOON converter with full TOON v2.0 specification compliance"
+repository = "https://github.com/anperrone/json2toon_rs"
+homepage = "https://github.com/anperrone/json2toon_rs"
+documentation = "https://docs.rs/json2toon_rs"
+readme = "README.md"
+keywords = ["json", "toon", "parser", "serialization", "format"]
+categories = ["encoding", "parser-implementations", "data-structures"]
+rust-version = "1.70"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0", features = ["preserve_order"] }
+
+[dev-dependencies]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

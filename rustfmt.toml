@@ -1,0 +1,30 @@
+# Rustfmt configuration for json2toon_rs
+# Only stable features to ensure CI compatibility
+
+# Edition must match Cargo.toml
+edition = "2021"
+
+# Maximum line width
+max_width = 100
+
+# Use spaces for indentation
+hard_tabs = false
+tab_spaces = 4
+
+# Formatting style
+style_edition = "2021"
+
+# Function calls
+use_small_heuristics = "Default"
+
+# Misc
+newline_style = "Auto"
+remove_nested_parens = true
+
+# Unstable features (uncomment when using nightly):
+# imports_granularity = "Crate"
+# group_imports = "StdExternalCrate"
+# normalize_comments = true
+# wrap_comments = true
+# comment_width = 100
+# reorder_impl_items = true

@@ -1,0 +1,17 @@
+# Clippy configuration for json2toon_rs
+
+# Note: Deny/warn/allow are set via command-line or code attributes, not here.
+# Run with: cargo clippy -- -D warnings
+
+# Common configuration options
+# Uncomment and adjust as needed:
+
+# msrv = "1.70"  # Minimum Supported Rust Version
+# cognitive-complexity-threshold = 30
+# too-many-arguments-threshold = 7
+# type-complexity-threshold = 250
+# single-char-binding-names-threshold = 4
+# too-many-lines-threshold = 100
+
+# For pedantic lints that should be allowed:
+# Use #[allow(clippy::lint_name)] in code instead

@@ -1,0 +1,30 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Source code
+*.rs text eol=lf
+*.toml text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# Scripts
+*.sh text eol=lf
+
+# Git config
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.gitmodules text eol=lf
+
+# CI/CD
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Archives
+*.tar binary
+*.gz binary
+*.zip binary
+
+# Rust specific
+Cargo.lock binary
