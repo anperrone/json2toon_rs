@@ -20,9 +20,10 @@ TOON (Token-Oriented Object Notation) is a line-oriented, indentation-based text
 ## Features
 
 - ✅ **Fully spec-compliant** with TOON v2.0
-- � **Bidirectional conversion** - encode JSON to TOON and decode back
-- �🚀 **Optimized** for performance with minimal allocations
+- ↔️ **Bidirectional conversion** - encode JSON to TOON and decode back
+- 🚀 **Optimized** for performance with minimal allocations
 - 📦 **Zero unsafe code** - fully safe Rust
+- ✨ **Robust Error Handling** - provides detailed, structured errors for easier debugging.
 - 🎯 **Automatic format detection** - tabular vs expanded arrays
 - 🔧 **Configurable** delimiters (comma, tab, pipe)
 - ⚙️ **Strict mode** - optional validation of structure and counts
@@ -70,20 +71,25 @@ users[2]{id,name,active}:
 ### Decoding (TOON → JSON)
 
 ```rust
-use json2toon_rs::{decode, DecoderOptions};
+use json2toon_rs::{decode, DecoderOptions, DecodeError};
 
 fn main() {
     let toon = "users[2]{id,name,active}:\n  1,Alice,true\n  2,Bob,false";
 
     let json = decode(toon, &DecoderOptions::default()).unwrap();
     println!("{}", serde_json::to_string_pretty(&json).unwrap());
+
+    // Example of error handling
+    let invalid_toon = "tags[2]: one,two,three";
+    let result = decode(invalid_toon, &DecoderOptions::default());
+    assert!(matches!(result, Err(DecodeError::ArrayLengthMismatch { .. })));
 }
 ```
 
 ### Round-Trip
 
 ```rust
-use json2toon_rs::{encode, decode, EncoderOptions, DecoderOptions};
+use json2toon_rs::{encode, decode, EncoderOptions, DecoderOptions, DecodeError};
 use serde_json::json;
 
 fn main() {

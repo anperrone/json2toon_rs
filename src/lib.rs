@@ -11,7 +11,7 @@
 //! ## Example
 //!
 //! ```rust
-//! use json2toon_rs::{encode, decode, EncoderOptions, DecoderOptions};
+//! use json2toon_rs::{encode, decode, EncoderOptions, DecoderOptions, DecodeError};
 //! use serde_json::json;
 //!
 //! // Encode JSON to TOON
@@ -32,8 +32,10 @@
 mod common;
 mod decoder;
 mod encoder;
+mod error;
 
 // Re-export public API
 pub use common::Delimiter;
 pub use decoder::{decode, DecoderOptions};
 pub use encoder::{encode, EncoderOptions};
+pub use error::DecodeError;

@@ -1,6 +1,6 @@
 [package]
 name = "json2toon_rs"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Antonio Perrone <anperrone86@gmail.com>"]
 license = "MIT"
@@ -18,12 +18,17 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0", features = ["preserve_order"] }
 
 [dev-dependencies]
+criterion = "0.5"
 
 [profile.release]
 opt-level = 3
 lto = true
 codegen-units = 1
 strip = true
+
+[[bench]]
+name = "encode_decode_bench"
+harness = false
 
 [package.metadata.docs.rs]
 all-features = true

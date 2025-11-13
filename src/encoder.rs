@@ -177,10 +177,10 @@ impl<'a> Encoder<'a> {
         }
     }
 
-    /// Encode an array with detection of tabular format
     /// Encode an array at root level (no key prefix)
+    /// This delegates to encode_array_after_key since the logic is identical
+    /// for both root-level and field-level arrays
     fn encode_array(&mut self, arr: &[Value], depth: usize, _key: Option<&str>) {
-        // Root arrays just write array content using the after-key logic
         self.encode_array_after_key(arr, depth);
     }
 
@@ -374,55 +374,22 @@ impl<'a> Encoder<'a> {
     }
 
     /// Check if string looks like a number
+    /// Returns true if the string could be parsed as a numeric value,
+    /// including edge cases like leading zeros (e.g., "007", "0123")
     fn is_numeric_like(&self, s: &str) -> bool {
-        // Matches numeric patterns or leading-zero decimals
-        if s.starts_with('0') && s.len() > 1 && s.chars().nth(1).unwrap().is_ascii_digit() {
-            return true; // Leading zero like "05"
-        }
-
-        // Standard number pattern: -?digits(.digits)?(e[+-]?digits)?
-        let bytes = s.as_bytes();
-        if bytes.is_empty() {
-            return false;
-        }
-
-        let mut i = 0;
-        if bytes[i] == b'-' {
-            i += 1;
-        }
-
-        if i >= bytes.len() || !bytes[i].is_ascii_digit() {
-            return false;
-        }
-
-        while i < bytes.len() && bytes[i].is_ascii_digit() {
-            i += 1;
-        }
-
-        if i < bytes.len() && bytes[i] == b'.' {
-            i += 1;
-            if i >= bytes.len() || !bytes[i].is_ascii_digit() {
-                return false;
-            }
-            while i < bytes.len() && bytes[i].is_ascii_digit() {
-                i += 1;
+        // Check for leading zeros which need quoting per TOON spec
+        if s.starts_with('0') && s.len() > 1 {
+            if let Some(second_char) = s.chars().nth(1) {
+                // "0." and "-0" are valid, but "05", "0123" etc. need quoting
+                if second_char.is_ascii_digit() {
+                    return true;
+                }
             }
         }
 
-        if i < bytes.len() && (bytes[i] == b'e' || bytes[i] == b'E') {
-            i += 1;
-            if i < bytes.len() && (bytes[i] == b'+' || bytes[i] == b'-') {
-                i += 1;
-            }
-            if i >= bytes.len() || !bytes[i].is_ascii_digit() {
-                return false;
-            }
-            while i < bytes.len() && bytes[i].is_ascii_digit() {
-                i += 1;
-            }
-        }
-
-        i == bytes.len()
+        // Use standard library parsing to detect numeric patterns
+        // This handles integers, floats, scientific notation, etc.
+        s.parse::<f64>().is_ok()
     }
 
     /// Quote and escape a string (§7.1)
@@ -446,14 +413,16 @@ impl<'a> Encoder<'a> {
     }
 
     /// Normalize number to canonical form (§2)
+    /// Converts numbers to TOON-compliant format without scientific notation
     fn normalize_number(&self, n: &serde_json::Number) -> String {
         if let Some(i) = n.as_i64() {
             i.to_string()
         } else if let Some(u) = n.as_u64() {
             u.to_string()
         } else if let Some(f) = n.as_f64() {
-            // Handle special cases
+            // Handle special cases - convert to null per TOON spec
             if f.is_nan() || f.is_infinite() {
+                // Note: NaN and Infinity are not valid in TOON, converting to null
                 return "null".to_string();
             }
 
@@ -462,14 +431,14 @@ impl<'a> Encoder<'a> {
                 return "0".to_string();
             }
 
-            // Use JSON's default formatting which preserves round-trip
-            // but remove trailing zeros and unnecessary decimal point
-            let s = n.to_string();
+            // Format the number, then convert scientific notation if present
+            let mut s = n.to_string();
 
-            // If it contains 'e' or 'E', it's in scientific notation - convert it
+            // Convert scientific notation (e.g., "1.5e10") to decimal form
             if s.contains('e') || s.contains('E') {
-                // For now, return as-is (spec requires non-exponent form but JSON gives us the value)
-                return s;
+                // Parse and reformat without scientific notation
+                // For very large/small numbers, this may produce long strings
+                s = format!("{:.}", f);
             }
 
             // Remove trailing zeros after decimal point
