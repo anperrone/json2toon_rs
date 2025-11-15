@@ -2,7 +2,6 @@
 
 [![Crates.io](https://img.shields.io/crates/v/json2toon_rs.svg)](https://crates.io/crates/json2toon_rs)
 [![Documentation](https://docs.rs/json2toon_rs/badge.svg)](https://docs.rs/json2toon_rs)
-[![codecov](https://codecov.io/gh/anperrone/json2toon_rs/graph/badge.svg?token=BDVVEVT65P)](https://codecov.io/gh/anperrone/json2toon_rs)
 [![CI](https://github.com/anperrone/json2toon_rs/workflows/CI/badge.svg)](https://github.com/anperrone/json2toon_rs/actions)
 [![codecov](https://codecov.io/gh/anperrone/json2toon_rs/graph/badge.svg?token=BDVVEVT65P)](https://codecov.io/gh/anperrone/json2toon_rs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
