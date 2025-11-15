@@ -1,2 +1,2 @@
 output-type: lcov
-output-path: .
+output-path: ./lcov.info
