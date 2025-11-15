@@ -11,7 +11,7 @@ documentation = "https://docs.rs/json2toon_rs"
 readme = "README.md"
 keywords = ["json", "toon", "parser", "serialization", "format"]
 categories = ["encoding", "parser-implementations", "data-structures"]
-rust-version = "1.91"
+
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
