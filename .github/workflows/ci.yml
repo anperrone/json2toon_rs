@@ -49,6 +49,17 @@ jobs:
       - name: Run tests
         run: cargo test --verbose
 
+      - name: rust-grcov
+        uses: actions-rs/grcov@v0.1
+
+      - name: Codecov
+        uses: codecov/codecov-action@v5
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_ORG_TOKEN }}
+        with:
+          verbose: true
+          fail_ci_if_error: true
+
       - name: Run examples
         run: |
           cargo run --example basic
