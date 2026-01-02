@@ -23,14 +23,17 @@ TOON (Token-Oriented Object Notation) is a line-oriented, indentation-based text
 - ↔️ **Bidirectional conversion** - encode JSON to TOON and decode back
 - 🚀 **Optimized** for performance with minimal allocations
 - 📦 **Zero unsafe code** - fully safe Rust
-- ✨ **Robust Error Handling** - provides detailed, structured errors for easier debugging.
+- ✨ **Robust Error Handling** - provides detailed, structured errors for easier debugging
 - 🎯 **Automatic format detection** - tabular vs expanded arrays
 - 🔧 **Configurable** delimiters (comma, tab, pipe)
 - ⚙️ **Strict mode** - optional validation of structure and counts
 - 🧪 **Comprehensive tests** covering all spec requirements
 - 📖 **Well-documented** with inline comments
+- 🔨 **CLI tool included** - command-line utility for easy conversion
 
 ## Installation
+
+### As a Library
 
 Add to your `Cargo.toml`:
 
@@ -39,7 +42,109 @@ Add to your `Cargo.toml`:
 json2toon_rs = "0.1.0"
 ```
 
-## Quick Start
+### As a CLI Tool
+
+Install the command-line tool:
+
+```bash
+cargo install json2toon_rs
+```
+
+Or build from source:
+
+```bash
+git clone https://github.com/anperrone/json2toon_rs
+cd json2toon_rs
+cargo build --release
+# Binary will be in target/release/json2toon
+```
+
+## CLI Usage
+
+The `json2toon` command-line tool provides easy conversion between JSON and TOON formats.
+
+### Basic Usage
+
+**Convert JSON to TOON (from stdin):**
+
+```bash
+echo '{"name": "Alice", "age": 30}' | json2toon
+```
+
+Output:
+```
+name: Alice
+age: 30
+```
+
+**Convert TOON to JSON:**
+
+```bash
+echo -e 'name: Alice\nage: 30' | json2toon --mode decode --pretty
+```
+
+Output:
+```json
+{
+  "name": "Alice",
+  "age": 30
+}
+```
+
+### File Input/Output
+
+**Convert JSON file to TOON file:**
+
+```bash
+json2toon -i input.json -o output.toon
+```
+
+**Convert TOON file to JSON file:**
+
+```bash
+json2toon -i input.toon -o output.json --mode decode --pretty
+```
+
+### Advanced Options
+
+**Use different delimiters:**
+
+```bash
+# Tab delimiter
+echo '{"tags": ["a", "b", "c"]}' | json2toon --delimiter tab
+
+# Pipe delimiter
+echo '{"tags": ["a", "b", "c"]}' | json2toon --delimiter pipe
+```
+
+**Custom indentation:**
+
+```bash
+json2toon -i input.json --indent 4
+```
+
+**Disable strict mode for decoding:**
+
+```bash
+json2toon -i input.toon --mode decode --strict=false
+```
+
+### CLI Options
+
+```
+Options:
+  -i, --input <FILE>           Input file (stdin if not specified)
+  -o, --output <FILE>          Output file (stdout if not specified)
+  -m, --mode <MODE>            Conversion mode: encode or decode [default: encode]
+  -d, --delimiter <DELIMITER>  Delimiter for TOON format [default: comma]
+      --indent <INDENT>        Indentation spaces [default: 2]
+      --strict                 Strict mode for decoder [default: true]
+  -p, --pretty                 Pretty print JSON output (decode mode only)
+  -h, --help                   Print help
+  -V, --version                Print version
+```
+
+## Quick Start (Library)
 
 ### Encoding (JSON → TOON)
 
